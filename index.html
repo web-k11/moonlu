@@ -1,0 +1,1390 @@
+
+<!-- 
+ *© 2025 web-k11. All rights reserved.
+ * 本程式碼受著作權法保護，未經授權禁止商業使用、修改或完整轉載。
+ * Unauthorized copying, modification, or distribution of this code 
+ * via any medium is strictly prohibited. 
+-->
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<link rel="icon" href="./favicon.ico"/>
+<link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+<link rel="manifest" href="./site.webmanifest">
+  
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>❤</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+
+// 主色調 (幻夜紫) - 神秘且具吸引力的聲線底蘊
+'mystic-purple': {
+  50:  '#F5F3FD',
+  100: '#EAE6FA',
+  200: '#D4C9F4',
+  300: '#BBA8ED',
+  400: '#9370DB', // 核心主色
+  500: '#7B52CB',
+  600: '#643BB1',
+  700: '#532F93',
+  800: '#422776',
+  900: '#36215D',
+},
+
+// 撞色 (碧霄青)
+'celestial-cyan': {
+  50:  '#F0FFFF',
+  100: '#D6FFFF',
+  200: '#BFFFFF',
+  300: '#A6FFFF', // 核心撞色
+  400: '#7AEBEB',
+  500: '#4DCCCC',
+  600: '#2E9999',
+  700: '#186666',
+  800: '#0A3D3D',
+  900: '#041F1F',
+},
+// 撞色 (熾焰橙)
+'tomato-blaze': {
+  50:  '#FFF4F0',
+  100: '#FFD9C7',
+  200: '#FFB899',
+  300: '#FF8A5C',
+  400: '#FF5C1F', // 核心撞色
+  500: '#E03C00',
+  600: '#B32F00',
+  700: '#802200',
+  800: '#4D1400',
+  900: '#260A00',
+},
+
+// 中性灰
+'grey': {
+  50: "#f8f8f8",
+  100: "#e0e0e0",
+  200: "#c8c8c8",
+  300: "#b0b0b0",
+  400: "#989898",
+  500: "#808080",
+  600: "#686868",
+  700: "#505050",
+  800: "#383838",
+  900: "#202020",
+  950: "#101010",
+        },
+      }
+    }
+  }
+}
+</script>
+<style>
+  /* 全域字體設定 */
+  body {
+    min-height: 100vh;
+    font-family: 'Noto Sans TC', sans-serif;
+    position: relative;
+    overflow-x: hidden;
+  } 
+
+  /* 固定背景顏色 */
+  body::before { 
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #D4C9F4 15%, #BFFFFF 100%);
+    z-index: -10;
+  }
+
+  /* 背景漂浮元素容器 */
+  .floating-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  /* 漂浮圓形 */
+  .floating-item {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    animation: float infinite ease-in-out;
+  }
+
+  /* 漂浮圖案 */
+  .floating-thing {
+    position: absolute;
+    opacity: 0.6;
+    animation: float infinite ease-in-out;
+  }  
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
+    25% { transform: translateY(-20px) translateX(10px) rotate(5deg); }
+    50% { transform: translateY(-35px) translateX(-15px) rotate(-5deg); }
+    75% { transform: translateY(-15px) translateX(15px) rotate(3deg); }
+  }
+
+  /* 搜尋框光圈特效顏色 */
+  .search-glow::before,
+  .search-glow::after {
+    content: '';
+    position: absolute;
+    left: 0.1rem;
+    right: 0.1rem;
+    height: 3px;
+    
+    border-radius: 3px;
+    
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 20%, black 80%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0%, black 20%, black 80%, transparent 100%);
+
+    background: linear-gradient(90deg, rgba(39, 94, 94,0), rgba(130, 255, 255,0.5), rgba(46, 59, 59,0)) 0% 50% / 200% 100%; 
+    z-index: -1;
+    animation: searchGlow 3s ease-in-out infinite alternate;
+  }
+
+  /* 獨立定位上方橫槓 */
+  .search-glow::before {
+    top: -3px;
+  }
+
+  /* 獨立定位下方橫槓 */
+  .search-glow::after {
+    bottom: -3px;
+  }
+
+  @keyframes searchGlow {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+  }
+
+  /* 標題特效顏色 */
+  .title-effect {
+    letter-spacing: 0.15em;
+    margin-left: 0.15em;
+    text-align: center;
+    background: linear-gradient(120deg, #2e454d, #2e454d, #2e454d); 
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    position: relative;
+    display: inline-block;
+    filter: drop-shadow(1px 2px 4px rgba(139, 0, 252, 0));
+    animation: titleShimmer 3s infinite;
+    font-weight: 800;
+  }
+
+  @keyframes titleShimmer {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .title-effect::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: radial-gradient(circle at center, rgba(247, 109, 109, 0.15) 0%, rgba(247, 109, 109, 0) 70%);
+    z-index: -1;
+    border-radius: 50%;
+    filter: blur(8px);
+  }
+
+ /* 顏色 */
+  .subtitle {
+    width: 100%;
+    text-align: center;
+    display: block;
+    text-shadow: 0px 0px 11px rgba(255, 255, 255, 0.6);
+  }
+
+  /* 動畫定義 */
+  @keyframes spinner { to { transform: rotate(360deg); } }
+  
+  @keyframes wobble {
+    0%, 100% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg); }
+  }
+
+  .empty-icon {
+    font-size: 4rem;
+    animation: wobble 2s ease-in-out infinite;
+    display: inline-block;
+  }
+
+  .line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* 歌曲卡片樣式 */
+  .song-card {
+    transition: all 0.3s ease;
+    transform: translateZ(0);
+    will-change: transform, box-shadow;
+    box-shadow: 0 5px 5px -1px rgba(0, 0, 0, 0.15), 0 0px 5px 0px rgba(0, 0, 0, 0.08);
+  }
+
+  .song-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 5px -3px rgba(0, 0, 0, 0.17), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+
+  /* 置頂按鈕 顏色 */
+  .back-to-top {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    padding: 0.75rem;
+    border-radius: 9999px;
+    background-color: rgba(138, 138, 138, 0.6);
+    color: white;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    z-index: 50;
+    transition: all 0.07s ease;
+  }
+
+  .back-to-top:hover {
+    background-color: #757575; 
+    box-shadow: 0 10px 20px -5px rgba(117, 117, 117, 0.3), 0 6px 12px -3px rgba(117, 117, 117, 0.15);
+    transform: translateY(-1px);
+  }
+
+  .back-to-top:active {
+    background-color: #5e5e5e; 
+    box-shadow: 0 5px 10px -2px rgba(94, 94, 94, 0.4), 0 2px 4px -1px rgba(94, 94, 94, 0.2); 
+    transform: translateY(0);
+  }
+  
+  .back-to-top.hidden {
+    opacity: 0;
+    transform: translateY(2.5rem);
+    pointer-events: none;
+  }
+
+  /* 吐司通知 */
+  .toast-notification {
+    position: fixed;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    z-index: 100;
+  }
+
+  .toast-notification.hidden {
+    opacity: 0;
+    transform: translateX(-50%) translateY(1rem);
+    pointer-events: none;
+  }
+
+  /* Loading Spinner */
+  .loading-spinner {
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: 9999px;
+    border: 4px solid #e9ebe4;
+    border-top-color: #925cc4;
+    animation: spinner 0.6s linear infinite;
+  }
+
+  /* 同步中轉圈圈 */
+  .syncing-spinner {
+    height: 1.5rem;
+    width: 1.5rem;
+    border-radius: 9999px;
+    border: 2px solid #e9ebe4;
+    border-top-color: #925cc4;
+    animation: spinner 0.6s linear infinite;
+  }
+
+  /* 按鈕狀態樣式 */
+  .clear-button { transition: all 0.3s ease; }
+  
+  .clear-button.disabled {
+    opacity: 0.5;
+    background-color: rgba(235, 235, 235, 0.5); 
+    color: rgba(172, 172, 172, 0.7); 
+    cursor: not-allowed;
+  }
+  
+  .clear-button.disabled:hover { 
+    opacity: 0.5;
+    background-color: rgba(235, 235, 235, 0.5);
+    color: rgba(172, 172, 172, 0.7);
+  }
+
+  /* 搜尋框清除按鈕 */
+  .search-clear-button {
+    position: absolute;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 50%;
+    background-color: rgba(156, 163, 175, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+
+  .search-clear-button:hover { background-color: rgba(156, 163, 175, 0.4); }
+  .search-clear-button.hidden { opacity: 0; visibility: hidden; }
+
+  /* 分類區域樣式 */
+  #selected-categories {
+    background-color: #EBEBEB;
+    min-height: 25px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px 4px;
+  }
+
+  .category-group {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 2px 4px;
+    background: rgba(255, 255, 255, 0.5);
+    margin-bottom: 0;
+  }
+
+  .category-group-title {
+    width: var(--max-title-width, max-content);
+    flex-shrink: 0;
+    margin-right: 0px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #6b7280;
+    margin-top: 4px;
+    margin-bottom: 4px;
+  }
+
+  .category-buttons-container {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 4px;
+    align-items: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="floating-bg" id="floating-bg"></div>
+
+<div id="app" class="container mx-auto px-4 py-4 sm:py-6">
+  <header class="text-center mb-3 sm:mb-3">
+    <h1 class="text-3xl sm:text-4xl font-bold mb-1 sm:mb-2 title-effect">❤</h1>
+    <p class="text-grey-600 text-base sm:text-lg subtitle">...</p> 
+  </header>
+
+  <div class="bg-white rounded-xl shadow-lg p-3 sm:p-6 mb-6 sm:mb-8 backdrop-blur-sm bg-opacity-90">
+    <div class="mb-2 sm:mb-3">
+      <div class="relative search-glow">
+        <input
+          id="search-input"
+          type="text"
+          placeholder="搜尋歌曲、歌手或語言..."
+          class="w-full pr-[58px] sm:pr-[58px] px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg border border-grey-300 focus:outline-none focus:ring-2 focus:ring-mystic-purple-500 text-grey-700 text-sm sm:text-base"
+        />
+        <button id="search-clear" class="search-clear-button hidden" aria-label="清除搜尋">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-grey-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+        <svg class="h-4 w-4 absolute right-3 top-1/2 -translate-y-1/2 text-grey-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+      </div>
+    </div>
+
+    <div class="mb-2 sm:mb-3">
+      <div id="category-groups" class="flex flex-col gap-0.5">
+        </div>
+
+      <div id="active-filters" class="flex items-center mt-3">
+        <div class="w-full px-2 py-2 bg-[#EBEBEB] rounded-lg">
+          <div id="selected-categories" class="flex flex-wrap content-center"></div>
+        </div>
+        <button
+          id="clear-categories"
+          class="clear-button w-24 ml-2 text-sm text-mystic-purple-500 hover:text-mystic-purple-600 font-medium px-2 py-1 bg-celestial-cyan-100 rounded-lg hover:bg-celestial-cyan-200 transition-colors disabled"
+        >
+          清除分類
+        </button>
+      </div>
+    </div>
+
+    <div class="flex flex-col md:flex-row md:items-center gap-4 mb-0">
+      <div id="language-filter" class="flex gap-1.5 sm:gap-2 flex-wrap"></div>
+    </div>
+
+    <div class="text-grey-700 mb-2 flex justify-between items-center">
+      <div><span id="song-count" class="font-medium">0</span> 首歌曲</div>
+      <div id="sync-status" class="text-xs text-grey-400 hidden">已更新</div>
+    </div>
+
+    <div id="loading" class="flex justify-center py-10">
+      <div class="loading-spinner"></div>
+    </div>
+
+    <div id="error" class="text-center py-10 hidden">
+      <div class="h-16 w-16 mx-auto text-red-400 mb-4">⚠️</div>
+      <p class="text-grey-600 text-lg">無法獲取歌曲數據</p>
+      <p class="text-grey-500 mt-2">請確保Google Sheet格式正確，並且可以公開訪問</p>
+      <button id="retry-button" class="mt-4 px-4 py-2 bg-mystic-purple-600 text-white rounded-lg hover:bg-mystic-purple-700">
+        重試
+      </button>
+    </div>
+
+    <div id="status-container" class="py-10 hidden">
+        <div id="syncing-state" class="text-center hidden">
+          <div class="flex flex-col items-center justify-center">
+              <div class="syncing-spinner mb-3"></div>
+              <p class="text-grey-600">正在同步最新歌單...</p>
+          </div>
+        </div>
+
+        <div id="empty-state" class="text-center hidden">
+          <div class="empty-icon mb-4">😕</div>
+          <p class="text-grey-600 text-lg">沒有找到符合的歌曲</p>
+        </div>
+    </div>
+
+    <div id="songs-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3"></div>
+  </div>
+
+  <button id="back-to-top" class="back-to-top hidden" aria-label="回到頂部">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+    </svg>
+  </button>
+
+  <div id="toast-notification" class="toast-notification hidden">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+    </svg>
+    <span>已複製到剪貼簿</span>
+  </div>
+</div>
+
+<script>
+// 全局變量
+let allSongs = [];
+let filteredSongs = [];
+let languages = new Set();
+let categories = new Set();
+let categoryCounts = {};
+let categoryOrder = {};
+let selectedCategories = new Set();
+let currentLanguageFilter = 'all';
+let categoryGroups = new Map();
+let groupOrder = {};
+let displayLimit = 50;  
+const INCREMENT = 50;   
+
+// 快取與渲染控制變量
+let isFetching = false;
+let renderTaskId = null;
+const SONGS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRuV_E02n1X9oHYLmL3ptKEsOfS3BdgIfoJ5qzFB1henEXBZUzQ4Ok_gvrH5t-keHGBWhW6R1PXQKg1/pub?gid=0&single=true&output=csv'; 
+const TITLE_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRuV_E02n1X9oHYLmL3ptKEsOfS3BdgIfoJ5qzFB1henEXBZUzQ4Ok_gvrH5t-keHGBWhW6R1PXQKg1/pub?gid=1368258477&single=true&output=csv'; 
+
+const CACHE_KEY_SONGS = `app_songs_data_csv`;
+const CACHE_KEY_TITLE = `app_title_data_csv`;
+// DOM 元素
+const searchInput = document.getElementById('search-input');
+const searchClear = document.getElementById('search-clear');
+const activeFilters = document.getElementById('active-filters');
+const selectedCategoriesContainer = document.getElementById('selected-categories');
+const languageFilter = document.getElementById('language-filter');
+const songCount = document.getElementById('song-count');
+const loading = document.getElementById('loading');
+const error = document.getElementById('error');
+const retryButton = document.getElementById('retry-button');
+const emptyState = document.getElementById('empty-state');
+const syncingState = document.getElementById('syncing-state');
+const statusContainer = document.getElementById('status-container');
+const songsGrid = document.getElementById('songs-grid');
+const backToTop = document.getElementById('back-to-top');
+const clearCategoriesButton = document.getElementById('clear-categories');
+const toastNotification = document.getElementById('toast-notification');
+const floatingBg = document.getElementById('floating-bg');
+
+// 初始化
+document.addEventListener('DOMContentLoaded', () => {
+  createFloatingElements();
+  init();
+  setupEventListeners();
+});
+
+
+// 初始化函數：實作「快取優先」策略
+function init() {
+    const cachedSongs = localStorage.getItem(CACHE_KEY_SONGS);
+    const cachedTitle = localStorage.getItem(CACHE_KEY_TITLE);
+
+    if (cachedTitle) {
+        updateTitleUI(JSON.parse(cachedTitle));
+    }
+
+    let hasCache = false;
+
+    if (cachedSongs) {
+        // 如果有快取，立即渲染，不顯示全屏 Loading
+        const data = JSON.parse(cachedSongs);
+        processSheetData(data);
+        hideLoading(); 
+        hasCache = true;
+    } else {
+        // 沒有快取才顯示全屏 Loading
+        showLoading();
+    }
+
+    // 將 hasCache 傳進去，如果有快取就會以靜默(true)方式在背景更新
+    fetchSheetData(hasCache);
+}
+
+// 創建漂浮元素
+function createFloatingElements() {
+  const numElements = 70;
+  const numThings = 35;
+  
+  for (let i = 0; i < numElements; i++) {
+    const element = document.createElement('div');
+    const size = Math.random() * 20 + 5;
+    const left = Math.random() * 100;
+    const top = Math.random() * 100;
+    const delay = Math.random() * 5;
+    const duration = Math.random() * 10 + 10;
+    
+    element.className = 'floating-item';
+    element.style.width = `${size}px`;
+    element.style.height = `${size}px`;
+    element.style.left = `${left}%`;
+    element.style.top = `${top}%`;
+    element.style.animationDelay = `${delay}s`;
+    element.style.animationDuration = `${duration}s`;
+    element.style.opacity = Math.random() * 0.5 + 0.1;
+    
+    floatingBg.appendChild(element);
+  }
+  
+  const emojis = ['🌙', '✨', '🐱']; 
+
+  for (let i = 0; i < numThings; i++) {
+    const element = document.createElement('div');
+    const left = Math.random() * 100;
+    const top = Math.random() * 100;
+    const delay = Math.random() * 5;
+    const duration = Math.random() * 10 + 15;
+    
+    element.className = 'floating-thing';
+    element.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    element.style.left = `${left}%`;
+    element.style.top = `${top}%`;
+    element.style.animationDelay = `${delay}s`;
+    element.style.animationDuration = `${duration}s`;
+    element.style.fontSize = `${Math.random() * 1 + 1}rem`;
+    
+    floatingBg.appendChild(element);
+  }
+}
+
+// 設置事件監聽器
+function setupEventListeners() {
+  searchInput.addEventListener('input', () => {
+    filterSongs();
+    toggleSearchClearButton();
+  });
+  
+  searchClear.addEventListener('click', () => {
+    searchInput.value = '';
+    filterSongs();
+    toggleSearchClearButton();
+    searchInput.focus();
+  });
+
+  clearCategoriesButton.addEventListener('click', () => {
+    if (selectedCategories.size > 0) {
+      selectedCategories.clear();
+      updateSelectedCategoriesUI();
+      filterSongs();
+    }
+  });
+
+  backToTop.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+      backToTop.classList.remove('hidden');
+    } else {
+      backToTop.classList.add('hidden');
+    }
+  });
+
+  retryButton.addEventListener('click', () => {
+      showLoading();
+      fetchSheetData();
+  });
+}
+
+function toggleSearchClearButton() {
+  if (searchInput.value.trim() !== '') {
+    searchClear.classList.remove('hidden');
+  } else {
+    searchClear.classList.add('hidden');
+  }
+}
+
+function updateTitleUI(titleDataArray) {
+    if (titleDataArray && titleDataArray.length > 0) {
+        const titleObject = titleDataArray[0];
+        const pageTitle = titleObject['分頁'] || '';
+        const mainTitle = titleObject['大標題'] || '';
+        const subtitle = titleObject['副標題'] || '';
+        
+        if (pageTitle) document.title = pageTitle;
+        const mainTitleElement = document.querySelector('.title-effect');
+        if (mainTitle && mainTitleElement) mainTitleElement.textContent = mainTitle;
+        const subtitleElement = document.querySelector('.subtitle');
+        if (subtitle && subtitleElement) subtitleElement.textContent = subtitle;
+    }
+}
+
+// --- 智慧更新設定 ---
+let lastUpdateTimestamp = 0; // 記錄上次成功的更新時間
+const UPDATE_COOLDOWN = 2 * 60 * 1000; // 2 分鐘 (毫秒)
+
+// 自訂 CSV 解析器，確保處理引號內字串與換行，避免無效內容
+function parseCSV(text) {
+    const rows = [];
+    let currentRow = [];
+    let currentCell = '';
+    let inQuotes = false;
+    for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        const nextChar = text[i + 1];
+        if (char === '"' && inQuotes && nextChar === '"') {
+            currentCell += '"'; i++;
+        } else if (char === '"') {
+            inQuotes = !inQuotes;
+        } else if (char === ',' && !inQuotes) {
+            currentRow.push(currentCell.trim()); currentCell = '';
+        } else if ((char === '\n' || (char === '\r' && nextChar === '\n')) && !inQuotes) {
+            if (char === '\r') i++;
+            currentRow.push(currentCell.trim());
+            rows.push(currentRow);
+            currentRow = []; currentCell = '';
+        } else {
+            currentCell += char;
+        }
+    }
+    if (currentCell !== '' || text[text.length - 1] === ',') currentRow.push(currentCell.trim());
+    if (currentRow.length > 0) rows.push(currentRow);
+    if (rows.length === 0) return [];
+    
+    const headers = rows[0];
+    const data = [];
+    for (let i = 1; i < rows.length; i++) {
+        if (rows[i].length === 1 && rows[i][0] === '') continue; // 略過空行
+        const rowObj = {};
+        for (let j = 0; j < headers.length; j++) {
+            rowObj[headers[j]] = rows[i][j] !== undefined ? rows[i][j] : '';
+        }
+        data.push(rowObj);
+    }
+    return data;
+}
+
+// 獲取 CSV 數據 (支援背景更新)
+async function fetchSheetData(isSilent = false) {
+  if (isFetching) return;
+  isFetching = true;
+
+  if (!isSilent) {
+    showLoading();
+    hideError();
+  }
+
+  try {
+    // 檢查網址是否已有問號，自動決定使用 ? 或 & 來拼接時間戳
+    const titleUrl = TITLE_CSV_URL.includes('?') ? `${TITLE_CSV_URL}&t=${new Date().getTime()}` : `${TITLE_CSV_URL}?t=${new Date().getTime()}`;
+    const songsUrl = SONGS_CSV_URL.includes('?') ? `${SONGS_CSV_URL}&t=${new Date().getTime()}` : `${SONGS_CSV_URL}?t=${new Date().getTime()}`;
+
+    const [titleResponse, songsResponse] = await Promise.all([
+        fetch(titleUrl),
+        fetch(songsUrl)
+    ]);
+
+    if (!titleResponse.ok || !songsResponse.ok) throw new Error('Network response was not ok');
+
+    const titleText = await titleResponse.text();
+    const songsText = await songsResponse.text();
+
+    const titleData = parseCSV(titleText);
+    const sheet1Data = parseCSV(songsText);
+
+    lastUpdateTimestamp = Date.now();
+    console.log(`[DataService] ${isSilent ? '背景更新' : '初次載入'}成功: ${new Date().toLocaleTimeString()}`);
+
+    if (titleData && titleData.length > 0) {
+      const titleObject = titleData[0];
+      if (titleObject['分頁']) document.title = titleObject['分頁'];
+      const mainTitleElement = document.querySelector('.title-effect');
+      if (mainTitleElement) mainTitleElement.textContent = titleObject['大標題'] || '';
+      const subtitleElement = document.querySelector('.subtitle');
+      if (subtitleElement) subtitleElement.textContent = titleObject['副標題'] || '';
+      
+      localStorage.setItem(CACHE_KEY_TITLE, JSON.stringify(titleData));
+    }
+
+    if (sheet1Data && sheet1Data.length > 0) {
+      processSheetData(sheet1Data);
+      localStorage.setItem(CACHE_KEY_SONGS, JSON.stringify(sheet1Data));
+    }
+
+    hideLoading();
+  } catch (err) {
+    console.error('[DataService] Sync failed:', err);
+    if (!isSilent) {
+      hideLoading();
+      showError();
+    }
+  } finally {
+    isFetching = false;
+  }
+}
+
+// 偵測是否需要更新的邏輯
+function checkForUpdate() {
+  const now = Date.now();
+  // 如果從未更新過，或距離上次更新超過 2 分鐘
+  if (lastUpdateTimestamp !== 0 && (now - lastUpdateTimestamp > UPDATE_COOLDOWN)) {
+    console.log("[AutoSync] 偵測到活動且冷卻結束，啟動背景更新...");
+    fetchSheetData(true); // 傳入 true，代表靜默更新，不轉圈圈
+  }
+}
+
+
+
+
+  
+
+// 處理數據
+function processSheetData(data) {
+  allSongs = [];
+  categories.clear();
+  languages.clear();
+  categoryCounts = {};
+  categoryGroups.clear(); 
+  groupOrder = {}; 
+
+  data.forEach((row) => {
+    const categoryGroup = row.分類群組 || row['分類群組'] || row.CategoryGroup || '';
+    const categoryItem = row.分類項目 || row['分類項目'] || row.CategoryItem || '';
+
+    if (categoryGroup && categoryItem) {
+      if (groupOrder[categoryGroup] === undefined) {
+        groupOrder[categoryGroup] = Object.keys(groupOrder).length;
+      }
+      
+      if (!categoryGroups.has(categoryGroup)) {
+        categoryGroups.set(categoryGroup, new Set());
+      }
+      categoryGroups.get(categoryGroup).add(categoryItem);
+      
+      if (categoryOrder[categoryItem] === undefined) {
+        categoryOrder[categoryItem] = Object.keys(categoryOrder).length;
+        categories.add(categoryItem);
+      }
+    } else if (categoryItem) {
+      const defaultGroup = '其他分類';
+      if (groupOrder[defaultGroup] === undefined) {
+        groupOrder[defaultGroup] = 999; 
+      }
+      if (!categoryGroups.has(defaultGroup)) {
+        categoryGroups.set(defaultGroup, new Set());
+      }
+      categoryGroups.get(defaultGroup).add(categoryItem);
+      
+      if (categoryOrder[categoryItem] === undefined) {
+        categoryOrder[categoryItem] = Object.keys(categoryOrder).length;
+        categories.add(categoryItem);
+      }
+    }
+  });
+
+  allSongs = data.map((row, index) => {
+ const song = {
+   id: index + 1,
+   title: String(row.歌名 || row.title || row.Song || '').trim(),
+   artist: String(row.歌手 || row.artist || row.Artist || '').trim(),
+   language: String(row.語言 || row.language || row.Language || '').trim(),
+   category: String(row.分類 || row.category || row.Category || '').trim(),
+   notes: String(row.備註 || row.notes || row.Notes || '').trim(),
+   categories: []
+ };
+
+    if (song.language) {
+      languages.add(song.language);
+    }
+
+    if (song.category) {
+      const categoryList = song.category.split(',').map(cat => cat.trim());
+      song.categories = categoryList;
+
+      categoryList.forEach(cat => {
+        if (cat) {
+          categories.add(cat);
+          categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
+
+          if (categoryOrder[cat] === undefined) {
+            categoryOrder[cat] = 1000 + Object.keys(categoryOrder).length;
+          }
+        }
+      });
+    }
+
+    return song;
+  })
+.filter(song => song.title);
+
+  filterSongs();
+  updateUI();
+}
+
+// 過濾歌曲
+function filterSongs() {
+  
+  const searchTerm = searchInput.value.toLowerCase();
+  displayLimit = INCREMENT;
+  filteredSongs = allSongs.filter(song => {
+    if (!song.title) return false;
+    
+    if (currentLanguageFilter !== 'all' && song.language !== currentLanguageFilter) {
+      return false;
+    }
+
+    if (selectedCategories.size > 0) {
+      for (const category of selectedCategories) {
+        if (!song.categories.includes(category)) {
+          return false;
+        }
+      }
+    }
+
+    if (searchTerm) {
+      return (
+        (song.title && song.title.toLowerCase().includes(searchTerm)) ||
+        (song.artist && song.artist.toLowerCase().includes(searchTerm)) ||
+        (song.language && song.language.toLowerCase().includes(searchTerm)) ||
+        (song.category && song.category.toLowerCase().includes(searchTerm)) ||
+        (song.notes && song.notes.toLowerCase().includes(searchTerm))
+      );
+    }
+
+    return true;
+  });
+
+  updateCategoryCounts();
+  updateSongsUI();
+}
+
+function updateCategoryCounts() {
+  const newCounts = {};
+
+  filteredSongs.forEach(song => {
+    if (song.categories && song.categories.length > 0) {
+      song.categories.forEach(cat => {
+        if (cat) {
+          newCounts[cat] = (newCounts[cat] || 0) + 1;
+        }
+      });
+    }
+  });
+
+  categoryCounts = newCounts;
+  updateCategoryFilterUI();
+}
+
+function updateUI() {
+  updateLanguageFilterUI();
+  updateCategoryFilterUI();
+  updateSongsUI();
+  updateSelectedCategoriesUI();
+  updateClearButtonState();
+  toggleSearchClearButton();
+}
+
+function updateClearButtonState() {
+  if (selectedCategories.size > 0) {
+    clearCategoriesButton.classList.remove('disabled');
+  } else {
+    clearCategoriesButton.classList.add('disabled');
+  }
+}
+
+function updateLanguageFilterUI() {
+  languageFilter.innerHTML = '';
+
+  Array.from(languages).sort().forEach(language => {
+    const button = document.createElement('button');
+    button.className = `px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg bg-grey-100 hover:bg-grey-200 text-grey-700 font-medium text-xs sm:text-sm transition-colors ${
+      currentLanguageFilter === language ? 'bg-mystic-purple-600 text-white hover:bg-mystic-purple-700' : ''
+    }`;
+    button.textContent = language;
+    button.addEventListener('click', () => {
+      if (currentLanguageFilter === language) {
+        currentLanguageFilter = 'all';
+      } else {
+        currentLanguageFilter = language;
+      }
+      updateLanguageFilterUI();
+      filterSongs();
+    });
+    languageFilter.appendChild(button);
+  });
+}
+
+function updateCategoryFilterUI() {
+  const categoryGroupsContainer = document.getElementById('category-groups');
+  categoryGroupsContainer.innerHTML = '';
+
+  const tempContainer = document.createElement('div');
+  tempContainer.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;font-size:0.875rem;font-weight:600;';
+  const spans = [];
+  Array.from(categoryGroups.keys()).forEach(groupName => {
+    const span = document.createElement('h4');
+    span.textContent = groupName;
+    tempContainer.appendChild(span);
+    spans.push(span);
+  });
+  document.body.appendChild(tempContainer);
+  const maxWidth = spans.reduce((max, span) => Math.max(max, span.offsetWidth), 0);
+  
+  document.documentElement.style.setProperty('--max-title-width', `${maxWidth + 5}px`);
+  document.body.removeChild(tempContainer);
+
+  const sortedGroups = Array.from(categoryGroups.keys()).sort((a, b) => {
+    const orderA = groupOrder[a] !== undefined ? groupOrder[a] : Number.MAX_SAFE_INTEGER;
+    const orderB = groupOrder[b] !== undefined ? groupOrder[b] : Number.MAX_SAFE_INTEGER;
+    return orderA - orderB;
+  });
+
+  sortedGroups.forEach(groupName => {
+    const groupCategories = Array.from(categoryGroups.get(groupName));
+    
+    const groupDiv = document.createElement('div');
+    groupDiv.className = 'category-group';
+    
+    const groupTitle = document.createElement('h4');
+    groupTitle.className = 'category-group-title';
+    groupTitle.textContent = groupName;
+    groupDiv.appendChild(groupTitle);
+    
+    const categoryContainer = document.createElement('div');
+    categoryContainer.className = 'category-buttons-container';
+    
+    const sortedCategories = groupCategories.sort((a, b) => {
+      const orderA = categoryOrder[a] !== undefined ? categoryOrder[a] : Number.MAX_SAFE_INTEGER;
+      const orderB = categoryOrder[b] !== undefined ? categoryOrder[b] : Number.MAX_SAFE_INTEGER;
+      return orderA - orderB;
+    });
+
+    sortedCategories.forEach(category => {
+      const count = categoryCounts[category] || 0;
+      const isSelected = selectedCategories.has(category);
+      const isDisabled = count === 0 && !isSelected;
+
+      const button = document.createElement('button');
+      button.className = `
+        px-2 py-1.5 rounded-lg font-medium flex items-center text-base transition-all duration-200
+        ${isSelected
+          ? 'bg-mystic-purple-500 text-grey-50 hover:bg-mystic-purple-600 shadow-md'
+          : isDisabled
+          ? 'bg-grey-100 text-grey-200 cursor-not-allowed'
+          : 'bg-mystic-purple-100 hover:bg-mystic-purple-200 text-mystic-purple-700'
+        }
+      `;
+      
+      if (isDisabled) {
+        button.disabled = true;
+      }
+
+      const span = document.createElement('span');
+      span.className = 'line-clamp-1';
+      span.textContent = category;
+      button.appendChild(span);
+
+      const countSpan = document.createElement('span');
+      countSpan.className = `ml-1.5 inline-flex items-center justify-center min-w-[20px] h-5 px-1 rounded-full text-xs font-semibold
+        ${isSelected
+          ? 'bg-mystic-purple-600/100 text-white'
+          : isDisabled
+          ? 'bg-grey-200 text-grey-300'
+          : 'bg-mystic-purple-200 text-mystic-purple-800'
+        }`;
+      countSpan.textContent = count;
+      button.appendChild(countSpan);
+
+      button.addEventListener('click', () => {
+        if (!button.disabled) {
+          toggleCategory(category);
+        }
+      });
+
+      categoryContainer.appendChild(button);
+    });
+
+    groupDiv.appendChild(categoryContainer);
+    categoryGroupsContainer.appendChild(groupDiv);
+  });
+}
+
+function updateSelectedCategoriesUI() {
+  selectedCategoriesContainer.innerHTML = '';
+
+  if (selectedCategories.size > 0) {
+    Array.from(selectedCategories).forEach(category => {
+      const tag = document.createElement('div');
+      tag.className = 'filter-tag bg-mystic-purple-200 text-mystic-purple-800 cursor-pointer text-xs px-2 py-1 rounded-full flex items-center border-0';
+      
+      const span = document.createElement('span');
+      span.textContent = category;
+      tag.appendChild(span);
+
+      const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      icon.setAttribute('class', 'h-3 w-3 ml-1');
+      icon.setAttribute('fill', 'none');
+      icon.setAttribute('viewBox', '0 0 24 24');
+      icon.setAttribute('stroke', 'currentColor');
+      
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('stroke-linecap', 'round');
+      path.setAttribute('stroke-linejoin', 'round');
+      path.setAttribute('stroke-width', '2');
+      path.setAttribute('d', 'M6 18L18 6M6 6l12 12');
+      
+      icon.appendChild(path);
+      tag.appendChild(icon);
+
+      tag.addEventListener('click', () => {
+        toggleCategory(category);
+      });
+
+      selectedCategoriesContainer.appendChild(tag);
+    });
+  } else {
+    const emptyText = document.createElement('span');
+    emptyText.className = 'text-grey-400 text-xs';
+    emptyText.textContent = '尚未選擇任何分類';
+    
+    selectedCategoriesContainer.appendChild(emptyText);
+  }
+  
+  updateClearButtonState();
+}
+
+function updateSyncStateUI() {
+    if (filteredSongs.length === 0 && isFetching) {
+        statusContainer.classList.remove('hidden');
+        syncingState.classList.remove('hidden');
+        emptyState.classList.add('hidden');
+        songsGrid.classList.add('hidden');
+    } else if (filteredSongs.length === 0 && !isFetching) {
+        statusContainer.classList.remove('hidden');
+        syncingState.classList.add('hidden');
+        emptyState.classList.remove('hidden');
+        songsGrid.classList.add('hidden');
+    } else {
+        statusContainer.classList.add('hidden');
+        songsGrid.classList.remove('hidden');
+    }
+}
+
+// 分批渲染 (Chunk Rendering)
+function updateSongsUI() {
+  songCount.textContent = filteredSongs.length;
+  songsGrid.innerHTML = '';
+
+  if (filteredSongs.length === 0) {
+    emptyState.classList.remove('hidden');
+    songsGrid.classList.add('hidden');
+  } else {
+    emptyState.classList.add('hidden');
+    songsGrid.classList.remove('hidden');
+
+    // 👉 3. 關鍵：只取出目前額度的歌曲 (前 50 首)
+    const songsToRender = filteredSongs.slice(0, displayLimit);
+    
+    songsToRender.forEach(song => {
+      if (song.title) {
+        const card = createSongCard(song);
+        songsGrid.appendChild(card);
+      }
+    });
+  }
+}
+
+// 👉 3. 新增：懶加載函式
+function loadMoreSongs() {
+  const currentLength = songsGrid.children.length;
+  if (currentLength < filteredSongs.length) {
+    const nextBatch = filteredSongs.slice(currentLength, currentLength + INCREMENT);
+    const fragment = document.createDocumentFragment();
+    
+    nextBatch.forEach(song => {
+      if (song.title) {
+        fragment.appendChild(createSongCard(song));
+      }
+    });
+    
+    songsGrid.appendChild(fragment);
+    displayLimit += INCREMENT;
+  }
+}
+
+
+  // 👉 3. 偵測滑到底部 500px 內，觸發載入更多
+window.addEventListener('scroll', () => {
+  if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500) {
+    loadMoreSongs();
+  }
+}, { passive: true });
+
+function createSongCard(song) {
+  const card = document.createElement('div');
+  card.className = `song-card bg-white rounded-lg p-2.5 border-l-4 ${getLanguageColor(song.language)} hover:border-mystic-purple-700 relative transition-all duration-300 hover:-translate-y-1`;
+
+  const title = document.createElement('h3');
+  title.className = 'text-lg font-bold text-grey-800 pr-1 line-clamp-2';
+  title.textContent = song.title || '';
+  card.appendChild(title);
+
+  const artistLangContainer = document.createElement('div');
+  artistLangContainer.className = 'flex flex-wrap justify-between items-center mt-1 gap-1';
+
+  const artist = document.createElement('p');
+  artist.className = 'text-xs sm:text-sm text-grey-600 line-clamp-1 mr-1';
+  artist.textContent = song.artist || '';
+  artistLangContainer.appendChild(artist);
+
+  if (song.language) {
+    const language = document.createElement('span');
+    language.className = `language-tag px-1.5 py-0.5 text-xs rounded-full ${getLanguageClass(song.language)} whitespace-nowrap`;
+    language.textContent = song.language;
+    artistLangContainer.appendChild(language);
+  }
+
+  card.appendChild(artistLangContainer);
+
+  if (song.categories && song.categories.length > 0) {
+    const categoriesContainer = document.createElement('div');
+    categoriesContainer.className = 'mt-1 flex flex-wrap';
+
+    song.categories.forEach(category => {
+      if (category) {
+        const tag = document.createElement('span');
+        tag.className = `inline-block px-1 py-0.5 text-xs rounded-full mr-1 mb-0.5 cursor-pointer ${
+          selectedCategories.has(category)
+            ? 'bg-mystic-purple-200 text-mystic-purple-800 font-medium'
+            : 'bg-mystic-purple-100 text-mystic-purple-800'
+        }`;
+        tag.textContent = category;
+        tag.addEventListener('click', () => {
+          toggleCategory(category);
+        });
+        categoriesContainer.appendChild(tag);
+      }
+    });
+
+    card.appendChild(categoriesContainer);
+  }
+
+  if (song.notes) {
+    const notes = document.createElement('p');
+    notes.className = 'mt-1 text-xs text-grey-500 line-clamp-2';
+    
+    const noteLabel = document.createElement('span');
+    noteLabel.className = 'font-medium';
+    noteLabel.textContent = '備註: ';
+    notes.appendChild(noteLabel);
+    
+    notes.appendChild(document.createTextNode(song.notes));
+    card.appendChild(notes);
+  }
+
+  const copyButtonContainer = document.createElement('div');
+  copyButtonContainer.className = 'absolute top-9 right-3';
+
+  const copyButton = document.createElement('button');
+  copyButton.className = 'p-2 bg-celestial-cyan-200 hover:bg-celestial-cyan-100 hover:text-[#8e7caf] text-[#8e7caf] rounded-full focus:outline-none shadow-md transition-all duration-200 hover:-translate-y-1 active:scale-95';
+
+  const copyIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  copyIcon.setAttribute('class', 'h-8 w-8');
+  copyIcon.setAttribute('fill', 'none');
+  copyIcon.setAttribute('viewBox', '0 0 24 24');
+  copyIcon.setAttribute('stroke', 'currentColor');
+  
+  const copyPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  copyPath.setAttribute('stroke-linecap', 'round');
+  copyPath.setAttribute('stroke-linejoin', 'round');
+  copyPath.setAttribute('stroke-width', '2');
+  copyPath.setAttribute('d', 'M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z');
+  
+  copyIcon.appendChild(copyPath);
+  copyButton.appendChild(copyIcon);
+
+  copyButton.addEventListener('click', () => {
+    const textToCopy = `${song.artist} - ${song.title}`.trim();
+    copyToClipboard(textToCopy);
+  });
+
+  copyButtonContainer.appendChild(copyButton);
+  card.appendChild(copyButtonContainer);
+
+  return card;
+}
+
+function toggleCategory(category) {
+  if (selectedCategories.has(category)) {
+    selectedCategories.delete(category);
+  } else {
+    selectedCategories.add(category);
+  }
+  
+  updateSelectedCategoriesUI();
+  filterSongs();
+}
+
+function copyToClipboard(text) {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text)
+      .then(() => {
+        showToast();
+      })
+      .catch(err => {
+        console.error('Failed to copy: ', err);
+      });
+  } else {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.select();
+    
+    try {
+      document.execCommand('copy');
+      showToast();
+    } catch (err) {
+      console.error('Fallback: Copy command failed', err);
+    }
+    
+    document.body.removeChild(textArea);
+  }
+}
+
+function showToast() {
+  toastNotification.classList.remove('hidden');
+  setTimeout(() => {
+    toastNotification.classList.add('hidden');
+  }, 2000);
+}
+
+function showLoading() {
+  loading.classList.remove('hidden');
+  songsGrid.classList.add('hidden');
+  emptyState.classList.add('hidden');
+  syncingState.classList.add('hidden');
+  error.classList.add('hidden');
+}
+
+function hideLoading() {
+  loading.classList.add('hidden');
+  songsGrid.classList.remove('hidden');
+}
+
+function showError() {
+  error.classList.remove('hidden');
+  songsGrid.classList.add('hidden');
+  emptyState.classList.add('hidden');
+  syncingState.classList.add('hidden');
+  loading.classList.add('hidden');
+}
+
+function hideError() {
+  error.classList.add('hidden');
+}
+
+const langColorCache = {};
+const langClassCache = {};
+const colorList = ['border-mystic-purple-500', 'border-celestial-cyan-500', 'border-grey-500', 'border-mystic-purple-400', 'border-celestial-cyan-400', 'border-grey-400', 'border-mystic-purple-600', 'border-celestial-cyan-600', 'border-grey-600', 'border-mystic-purple-700', 'border-celestial-cyan-700'];
+const classList = ['bg-mystic-purple-100 text-mystic-purple-800', 'bg-celestial-cyan-100 text-celestial-cyan-800', 'bg-mystic-purple-200 text-mystic-purple-800', 'bg-celestial-cyan-200 text-celestial-cyan-800', 'bg-mystic-purple-100 text-mystic-purple-700', 'bg-celestial-cyan-100 text-celestial-cyan-700', 'bg-mystic-purple-200 text-mystic-purple-700', 'bg-celestial-cyan-200 text-celestial-cyan-700', 'bg-mystic-purple-100 text-mystic-purple-900'];
+
+function getLanguageColor(language) {
+  if (!language) return 'border-grey-500';
+  if (langColorCache[language]) return langColorCache[language];
+  let hash = 0;
+  for (let i = 0; i < language.length; i++) hash = language.charCodeAt(i) + ((hash << 5) - hash);
+  return langColorCache[language] = colorList[Math.abs(hash) % colorList.length];
+}
+
+function getLanguageClass(language) {
+  if (!language) return 'bg-grey-100 text-grey-800';
+  if (langClassCache[language]) return langClassCache[language];
+  let hash = 0;
+  for (let i = 0; i < language.length; i++) hash = language.charCodeAt(i) + ((hash << 5) - hash);
+  return langClassCache[language] = classList[Math.abs(hash) % classList.length];
+}
+</script>
+</body>
+</html>
+
+
