@@ -253,10 +253,12 @@ tailwind.config = {
     box-shadow: 0 5px 5px -1px rgba(0, 0, 0, 0.15), 0 0px 5px 0px rgba(0, 0, 0, 0.08);
   }
 
+  @media (hover: hover) {
   .song-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 10px 5px -3px rgba(0, 0, 0, 0.17), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   }
+}
 
   /* 置頂按鈕 顏色 */
   .back-to-top {
@@ -1046,14 +1048,14 @@ function updateCategoryFilterUI() {
 
       const button = document.createElement('button');
       button.className = `
-        px-2 py-1.5 rounded-lg font-medium flex items-center text-base transition-all duration-200
-        ${isSelected
-          ? 'bg-mystic-purple-500 text-grey-50 hover:bg-mystic-purple-600 shadow-md'
-          : isDisabled
-          ? 'bg-grey-100 text-grey-200 cursor-not-allowed'
-          : 'bg-mystic-purple-100 hover:bg-mystic-purple-200 text-mystic-purple-700'
-        }
-      `;
+  px-2 py-1.5 rounded-lg font-medium flex items-center text-base transition-all duration-200
+  ${isSelected
+    ? 'bg-mystic-purple-500 text-grey-50 active:bg-mystic-purple-600 md:hover:bg-mystic-purple-600 shadow-md'
+    : isDisabled
+    ? 'bg-grey-100 text-grey-200 cursor-not-allowed'
+    : 'bg-mystic-purple-100 active:bg-mystic-purple-200 md:hover:bg-mystic-purple-200 text-mystic-purple-700'
+  }
+`;
       
       if (isDisabled) {
         button.disabled = true;
@@ -1067,7 +1069,7 @@ function updateCategoryFilterUI() {
       const countSpan = document.createElement('span');
       countSpan.className = `ml-1.5 inline-flex items-center justify-center min-w-[20px] h-5 px-1 rounded-full text-xs font-semibold
         ${isSelected
-          ? 'bg-mystic-purple-600/100 text-white'
+          ? 'bg-mystic-purple-700/100 text-white'
           : isDisabled
           ? 'bg-grey-200 text-grey-300'
           : 'bg-mystic-purple-200 text-mystic-purple-800'
