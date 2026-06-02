@@ -1195,8 +1195,10 @@ function loadMoreSongs() {
 }
 
 
-  // 👉 3. 偵測滑到底部 500px 內，觸發載入更多
+  // 👉 3. 偵測滑動，觸發載入更多與背景更新檢查
 window.addEventListener('scroll', () => {
+  checkForUpdate(); // 加入這行：用戶滑動時檢查是否需要背景同步
+
   if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500) {
     loadMoreSongs();
   }
